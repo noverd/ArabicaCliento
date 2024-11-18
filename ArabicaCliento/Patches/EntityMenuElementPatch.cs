@@ -1,3 +1,4 @@
+using System.Reflection;
 using Content.Client.ContextMenu.UI;
 using HarmonyLib;
 
@@ -7,11 +8,12 @@ namespace ArabicaCliento.Patches;
 [HarmonyPatch("GetEntityDescription")]
 internal class EntityMenuElementPatch
 {
+    private static MethodInfo? _methodCache;
     [HarmonyPrefix]
     private static bool Prefix(EntityUid entity, EntityMenuElement __instance, ref string __result)
     {
-        __result = AccessTools.Method(typeof(EntityMenuElement), "GetEntityDescriptionAdmin")
-            .Invoke(__instance, [entity]) as string ?? throw new InvalidOperationException();
+        _methodCache ??= AccessTools.Method(typeof(EntityMenuElement), "GetEntityDescriptionAdmin");
+        __result = _methodCache.Invoke(__instance, [entity]) as string ?? throw new InvalidOperationException();
         return false;
     }
 }
