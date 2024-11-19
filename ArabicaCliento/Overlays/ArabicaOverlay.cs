@@ -22,7 +22,9 @@ public class ArabicaOverlay(
         var font = new VectorFont(resourceCache.GetResource<FontResource>("/Fonts/NotoSans/NotoSans-Regular.ttf"), 10);
         
         var viewport = args.WorldAABB;
-
+        
+        if(!ArabicaConfig.OverlayEnabled) return;
+        
         foreach (var entity in entManager.GetEntities())
         {
             if (!entManager.EntityExists(entity))
@@ -34,8 +36,6 @@ public class ArabicaOverlay(
                 continue;
             }
             
-            if(!ArabicaConfig.OverlayEnabled) return;
-
             if (entManager.GetComponentOrNull<ActorComponent>(entity) != null)
             {
                 var aabb = entityLookup.GetWorldAABB(entity);

@@ -9,7 +9,7 @@ namespace ArabicaCliento.Commands;
 public class ArabicaOverlay : IConsoleCommand
 {
     public string Command => "arabica.overlay";
-    public string Description => "nigg a";
+    public string Description => "Shows Ckeys and CharNames of players";
     public string Help => "arabica.overlay";
 
     public void Execute(IConsoleShell shell, string argStr, string[] args)
