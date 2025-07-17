@@ -25,4 +25,10 @@ internal static class OverlaysPatch
     {
         return !ArabicaConfig.OverlaysDisable;
     }
+    
+    [HarmonyFinalizer]
+    private static void Finalizer(Exception __exception)
+    {
+        MarseyLogger.Fatal($"Error while patching OverlaysPatch: {__exception}");
+    }
 }

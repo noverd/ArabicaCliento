@@ -3,17 +3,16 @@ using HarmonyLib;
 
 namespace ArabicaCliento.Patches;
 
-[HarmonyPatch]
+[HarmonyPatch("Robust.Client.Console.ClientConsoleHost", "CanExecute")]
 internal class ConsoleHostPatch
 {
-    [HarmonyTargetMethod]
-    private static MethodBase TargetMethod()
-    {
-        return AccessTools.Method(AccessTools.TypeByName("Robust.Client.Console.ClientConsoleHost"),
-            "CanExecute");
-        
-    }
-    
     [HarmonyPostfix]
     private static void Postfix(ref bool __result) => __result = true;
+
+
+    [HarmonyFinalizer]
+    private static void Finalizer(Exception __exception)
+    {
+        MarseyLogger.Fatal($"Error while patching ConsoleHostPatch: {__exception}");
+    }
 }

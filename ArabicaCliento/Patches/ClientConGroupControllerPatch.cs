@@ -25,4 +25,10 @@ internal static class ClientConGroupControllerPatch
         __result = true;
         return false;
     }
+    
+    [HarmonyFinalizer]
+    private static void Finalizer(Exception __exception)
+    {
+        MarseyLogger.Fatal($"Error while patching ClientConGroupControllerPatch: {__exception}");
+    }
 }

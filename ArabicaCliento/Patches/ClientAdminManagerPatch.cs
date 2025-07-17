@@ -23,4 +23,11 @@ internal static class ClientAdminManagerPatch
         __result = true;
         return false;
     }
+    
+        
+    [HarmonyFinalizer]
+    private static void Finalizer(Exception __exception)
+    {
+        MarseyLogger.Fatal($"Error while patching ClientAdminManagerPatch: {__exception}");
+    }
 }
