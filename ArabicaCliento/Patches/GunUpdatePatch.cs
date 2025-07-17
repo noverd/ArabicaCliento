@@ -11,7 +11,7 @@ using Robust.Shared.Map;
 namespace ArabicaCliento.Patches;
 
 [HarmonyPatch(typeof(GunSystem), nameof(GunSystem.Update))]
-public class GunUpdatePatch
+internal class GunUpdatePatch
 {
     private static EntityManager? _entMan;
     private static IInputManager? _input;
@@ -56,5 +56,11 @@ public class GunUpdatePatch
         codes[index - 1] = new CodeInstruction(OpCodes.Call, methodInfo); // Before stfld goes call
 
         return codes.AsEnumerable();
+    }
+    
+    [HarmonyFinalizer]
+    private static void Finalizer(Exception __exception)
+    {
+        MarseyLogger.Fatal($"Error while patching GunUpdatePatch: {__exception}");
     }
 }

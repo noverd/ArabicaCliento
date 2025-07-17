@@ -8,7 +8,7 @@ using Robust.Client.GameObjects;
 namespace ArabicaCliento.Patches;
 
 [HarmonyPatch(typeof(MeleeWeaponSystem), "ClientHeavyAttack")]
-public class ClientHeavyAttackPatch
+internal class ClientHeavyAttackPatch
 {
     private static IEntityManager? _entMan;
     private static TransformSystem? _transform;
@@ -29,5 +29,11 @@ public class ClientHeavyAttackPatch
         var output = _aim.GetClosestToEntInRange(user, component.Range, [user]);
         if (output == null) return;
         coordinates = _transform.ToCoordinates(coordinates.EntityId, output.Value.Position);
+    }
+    
+    [HarmonyFinalizer]
+    private static void Finalizer(Exception __exception)
+    {
+        MarseyLogger.Fatal($"Error while patching ClientHeavyAttackPatch: {__exception}");
     }
 }

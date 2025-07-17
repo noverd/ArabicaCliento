@@ -6,8 +6,14 @@ namespace ArabicaCliento.Patches;
 internal static class DrawOcclusionDepthPatch
 {
     [HarmonyPrefix]
-    static bool Prefix()
+    private static bool Prefix()
     {
         return !ArabicaConfig.FOVDisable;
+    }
+    
+    [HarmonyFinalizer]
+    private static void Finalizer(Exception __exception)
+    {
+        MarseyLogger.Fatal($"Error while patching DrawOcclusionDepthPatch: {__exception}");
     }
 }
